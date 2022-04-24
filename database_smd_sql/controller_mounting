@@ -1,11 +1,11 @@
---создадим таблицу с данными монтажа печатной платы типа контроллер - controller_mounting, здесь (code_id) порядковый номер контроллеров по названию и является FOREIGN KEY для таблицы controller (code), (type_components) тип устанавливаемых компонентов, (amount_components) количество устанавливаемых компонентов, (setup_time) время установки компонентов на SMD станке, (class_solder_pasta) класс паяльной пасты :
+--создадим таблицу с данными монтажа печатной платы типа контроллер - controller_mounting:
 
 CREATE TABLE smd.controller_mounting(
-	code_id INT REFERENCES smd.controller(code) GENERATED ALWAYS AS IDENTITY,
-	type_components TEXT,
-	amount_components NUMERIC,
-	class_solder_pasta TEXT,
-	setup_time time
+	code_id INT REFERENCES smd.controller(code) GENERATED ALWAYS AS IDENTITY, -- порядковый номер контроллеров по названию и является FOREIGN KEY для таблицы controller (code)
+	type_components TEXT, -- тип устанавливаемых компонентов
+	amount_components NUMERIC, -- количество устанавливаемых компонентов
+	class_solder_pasta TEXT, -- класс паяльной пасты 
+	setup_time time -- время установки компонентов на SMD станке
 );
 INSERT INTO smd.controller_mounting (type_components, amount_components, class_solder_pasta, setup_time)
 VALUES ('smd', '82', 'A', '00:07:16'),

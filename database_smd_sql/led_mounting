@@ -1,11 +1,11 @@
---создадим таблицу с данными монтажа печатной платы типа led платы - led_mounting, здесь (code_id) порядковый номер контроллеров по названию и является FOREIGN KEY для таблицы led(code), (type_diodes) тип устанавливаемых диодов, (amount_diodes) количество устанавливаемых диодов, (setup_time) время установки диодов на SMD станке, (class_solder_pasta) класс паяльной пасты :
+--создадим таблицу с данными монтажа печатной платы типа led платы - led_mounting:
 
 CREATE TABLE smd.led_mounting(
-	code_id INT REFERENCES smd.led(code) GENERATED ALWAYS AS IDENTITY,
-	type_diodes TEXT,
-	amount_diodes NUMERIC,
-	class_solder_pasta TEXT,
-	setup_time time
+	code_id INT REFERENCES smd.led(code) GENERATED ALWAYS AS IDENTITY, -- порядковый номер контроллеров по названию и является FOREIGN KEY для таблицы led(code)
+	type_diodes TEXT, -- тип устанавливаемых диодов
+	amount_diodes NUMERIC, -- количество устанавливаемых диодов
+	class_solder_pasta TEXT, -- класс паяльной пасты
+	setup_time time -- время установки диодов на SMD станке
 );
 INSERT INTO smd.led_mounting (type_diodes, amount_diodes, class_solder_pasta, setup_time)
 VALUES ('2835', '520', 'A', '00:23:26'),

@@ -1,13 +1,13 @@
---создадим таблицу с печатными платами типа печатной платы со светодиодами - led, (led_id) является вторичным ключом для таблицы pcb(id), здесь (code) является порядковым номером led платы и является PRIMARY KEY для таблицы монтажа led платы - led_mounting (code_id), (name) название led платы , (price) цена led платы за 1 шт в рублях, (color) цвет led платы, (board) толщина led платы в мм, (stencil) тип трафаретного листа для нанесения паяльной пасты (тип ‘portrait’ является трафаретом с портретной оконтовкой, а ‘sheet’ листовой трафарет) :
+--создадим таблицу с печатными платами типа печатной платы со светодиодами - led:
 
 CREATE TABLE smd.led(
-	led_id INT REFERENCES smd.pcb (id),
-	code INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-	name VARCHAR(255) NOT NULL,
-	price NUMERIC (9, 2),
-	color TEXT,
-	board NUMERIC (9, 1),
-	stencil TEXT
+	led_id INT REFERENCES smd.pcb (id), -- является идентификационном номером печатной платы и FOREIGN KEY для таблицы pcb(id)
+	code INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY, --является порядковым номером печатных плат типа led и PRIMARY KEY для таблицы led_mounting(code_id)
+	name VARCHAR(255) NOT NULL, -- название led платы
+	price NUMERIC (9, 2), -- цена led платы за 1 шт в рублях
+	color TEXT, -- цвет led платы
+	board NUMERIC (9, 1), -- толщина led платы в мм
+	stencil TEXT -- тип трафаретного листа для нанесения паяльной пасты
 );
 INSERT INTO smd.led (led_id, name, price, color, board, stencil)
 VALUES ('4', '2835-13s4p-52LED', '370.5', 'white', '1.1', 'sheet'),

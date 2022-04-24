@@ -1,14 +1,14 @@
---создадим таблицу с печатными платами типа контроллер - controller,  (controller_id) является вторичным ключом для таблицы pcb(id), (code) является порядковым номером печатной платы и первичным ключом для таблицы controller_mounting(code_id),(name) название контроллера, (price) цена контроллера за 1 шт в рублях, (color) цвет контроллера, (board) толщина контроллера в мм, (type_control) тип управления контроллера, (stencil) тип трафаретного листа для нанесения паяльной пасты (тип ‘portrait’ является трафаретом с портретной оконтовкой, а ‘sheet’ листовой трафарет) :
+--создадим таблицу с печатными платами типа контроллер - controller:
 
 CREATE TABLE smd.controller(
-	controller_id INT REFERENCES smd.pcb (id),
-	code INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-	name VARCHAR(255) NOT NULL,
-	price NUMERIC (9, 2),
-	color TEXT,
-	board NUMERIC (9, 1),
-	type_control TEXT,
-	stencil TEXT
+	controller_id INT REFERENCES smd.pcb (id), -- является идентификационном номером печатной платы и FOREIGN KEY для таблицы pcb(id)
+	code INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY, -- является порядковым номером печатных плат типа controller и PRIMARY KEY для таблицы controller_mounting(code_id)
+	name VARCHAR(255) NOT NULL, -- название контроллера
+	price NUMERIC (9, 2), -- цена контроллера за 1 шт в рублях
+	color TEXT, -- цвет контроллера
+	board NUMERIC (9, 1), -- толщина контроллера в мм
+	type_control TEXT, -- тип управления контроллера
+	stencil TEXT -- тип трафаретного листа для нанесения паяльной пасты
 );
 INSERT INTO smd.controller (controller_id, name, price, color, board, type_control, stencil)
 VALUES ('2', 'B102_1.2', '296', 'green', '2', 'dmx', 'sheet'),

@@ -1,0 +1,12 @@
+-- создадим таблицу с печатными платами  pcb, в которой (id) это идентификационный номер и является PRIMARY KEY, (maker) является производителем печатной платы и (model) указывает что плата является либо контроллером либо led платой ( плата со светодиодами):
+
+CREATE TABLE IF NOT EXISTS smd.pcb(
+	id INT PRIMARY KEY,
+	maker TEXT,
+	model TEXT
+);
+INSERT INTO smd.pcb (id, maker, model)
+VALUES    ('1', 'Russia', 'controller'),
+	      ('2', 'China', 'controller'),
+	      ('3', 'Russia', 'led'),	
+	      ('4', 'China', 'led')

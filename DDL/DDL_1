@@ -4,7 +4,7 @@ SELECT
 FROM
 	smd.pcb;
 
--запрос, который выведет идентификатор печатной платы, порядковый номер и имя контроллера из таблицы controller:
+--запрос, который выведет идентификатор печатной платы, порядковый номер и имя контроллера из таблицы controller:
 SELECT 
 	controller_id, code, name
 FROM 
@@ -96,6 +96,66 @@ SELECT
 FROM
 	smd.controller;
 
+--средняя цена всех led плат и результат округлен до двух знаков:
+SELECT
+	ROUND(AVG(price),2)
+FROM
+	smd.led;
+
+--среднее время установки в разбивке по типу диодов из таблицы led_mounting
+--Результат отсортировали по типу диодов в порядке возростания:
+SELECT
+	type_diodes,
+	AVG(setup_time)
+FROM
+	smd.led_mounting
+GROUP BY
+	type_diodes
+ORDER BY
+	type_diodes ASC;
+
+--запрос, который позволяет нам посчитать количество контроллеров с отдельно взятой ценой в таблице controller,
+--при условии, что тип трафарета листовой - 'sheet' и толщина контроллера не меньше 2:
+SELECT
+	price,
+	COUNT(*)
+FROM 
+	smd.controller
+WHERE 
+	stencil = 'sheet'
+	AND
+	board >= 2
+GROUP BY 
+	price;
+
+
+--запрос, который посчитает нам количество названий led плат в разбивке по цене, 
+--при этом цена должна быть округлена до целого числа. Результат отсортиртировали по округлённой цене:
+SELECT
+	ROUND(price, 1),
+	COUNT(name)
+FROM
+	smd.led	
+GROUP BY
+	1
+ORDER BY
+	1;
+
+--запрос, который найдет среднюю цену за 1 контроллер в разбивке по типу контроллера,
+--при этом тип контроллера отображается в разбивке по типу трафаретного листа,
+--при этом вывести данные, у которых средняя цена больше 180 руб:
+SELECT
+	type_control,
+	stencil,
+	ROUND(AVG(price),2) as average_price
+FROM
+	smd.controller
+GROUP BY
+	1,2
+HAVING
+	AVG(price) > 180
+ORDER BY
+	1 ASC;
 
 
 

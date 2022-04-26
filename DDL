@@ -1,0 +1,123 @@
+-- запрос, который выведет все столбцы с данными из таблицы pcb
+SELECT
+	*
+FROM
+	smd.pcb;
+
+-запрос, который выведет идентификатор печатной платы, порядковый номер и имя контроллера из таблицы controller:
+SELECT 
+	controller_id, code, name
+FROM 
+	smd.controller;
+
+--запрос, который выведет колонку с именем led платы, но переименует столбец на Titles:
+SELECT 
+	name as tittle
+FROM 
+	smd.led;
+
+--запрос, который выведет уникальные значения типа управления контроллера:
+SELECT 
+	DISTINCT type_control
+FROM 
+	smd.controller;
+
+--запрос, который выведет все столбцы с условием что цена led платы > 200:
+SELECT 
+	*
+FROM 
+	smd.led
+WHERE 
+	price > 200;
+
+-- запрос который выведет все данные из таблицы с условием, что толщина контроллера находится между 1.5 и 2 мм:
+SELECT 
+	*
+FROM 
+	smd.controller
+WHERE 
+	board BETWEEN 1.5 AND 2;
+
+--запрос который выведет все данные из таблицы с условием, что толщина контроллера находится между 1.5 и 2 мм и цвет черный:
+SELECT 
+	*
+FROM 
+	smd.controller
+WHERE 
+	board BETWEEN 1.5 AND 2
+	AND color = 'black';
+
+--запрос который выведет все данные из таблицы с условием цвет led платы черный или тип трафарета портретный
+-- отсортировать значения по порядковому номеру в порядке убвывания:
+SELECT 
+	*
+FROM 
+	smd.led
+WHERE 
+	color = 'black'
+	OR stencil = 'portrait'
+ORDER BY 
+	code asc;
+
+-- запрос, который выведет топ-3 печатные платы с наибольшим колличеством устанавливаемых диодов на плату
+-- не включать в запрос данные, у которых тип паяльной пасты = 'B':
+SELECT
+	*
+FROM
+	smd.controller_mounting
+WHERE
+	class_solder_pasta = 'A'
+ORDER BY
+	 amount_components DESC
+LIMIT
+	3;
+
+-- посчитать количество записей в таблице с контроллерами, где тип управления контроллера 'dmx:
+SELECT
+	COUNT(*)
+FROM 
+	smd.controller
+WHERE
+	type_control = 'dmx';
+
+----Посчитать максимальное, минимальное и среднее время установки led платы:
+SELECT
+	MAX(setup_time),
+	MIN(setup_time),
+	AVG(setup_time)
+FROM 
+	smd.led_mounting;
+
+--название контроллера, его цену в том виде, какая она есть и цену, округлённую до целого числа:
+SELECT
+	name,
+	price,
+	ROUND(price,0)
+FROM
+	smd.controller;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

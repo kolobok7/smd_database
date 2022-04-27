@@ -1,0 +1,56 @@
+--запрос, который выведет названия контроллеров и и производителей контроллеров из России:
+SELECT 
+	p.maker, 
+	c.name
+FROM 
+	smd.pcb AS p
+JOIN smd.controller AS c
+	ON p.id = c.controller_id
+WHERE 
+	p.maker = 'Russia';
+
+--с помощью СТЕ (подзапроса) вывести все данные из таблице led  где толщина led платы находится в диапозоне между 1.6 и 2, и толщина равна 1.8
+-- вывести из из этих подзапросов только те данные, где толщина платы равняется ТОЛЬКО 1.8:
+WITH board_1 AS
+		(SELECT
+		 	*
+		 FROM 
+		 	smd.led
+		 WHERE
+		 	board BETWEEN 1.6 AND 2),
+board_2 AS
+		(SELECT
+		 	*
+		 FROM 
+		 	smd.led
+		 WHERE
+		 	board = 1.8)
+SELECT
+	DISTINCT b1.name
+FROM 
+	board_1 AS b1
+LEFT JOIN board_2 AS b2
+	ON b1.board = b2.board
+WHERE
+	b2.board IS NOT NULL;
+
+--сформируем новый столбец с рецензией скорости установки (speed_mounting) компонентов на led платы:
+WITH table_1 AS (SELECT
+	sc.name, scm.setup_time
+FROM 	
+	smd.controller AS sc
+JOIN 
+	smd.controller_mounting AS scm
+	ON sc.code = scm.code_id)
+SELECT
+	name,
+	setup_time,
+	CASE
+		WHEN setup_time > '00:20:00' THEN 'long'
+		WHEN setup_time > '00:10:00' THEN 'normal'
+		ELSE 'speed'
+		END AS speed_mounting
+FROM 
+	table_1
+ORDER BY 3;
+

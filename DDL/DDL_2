@@ -54,3 +54,53 @@ FROM
 	table_1
 ORDER BY 3;
 
+--соединим таблицы с помощью union и посмотрем в срезе 10 строк:
+SELECT 
+	*
+FROM 
+	smd.led_mounting
+UNION 
+SELECT
+	*
+FROM
+	smd.controller_mounting
+LIMIT 
+	10;
+
+--вывести общее количество всех черных печатных плат:
+WITH table_black_pcb AS
+(SELECT
+	COUNT(*) AS count_b,
+	color
+FROM 
+	smd.controller
+GROUP BY 
+	color
+HAVING color = 'black' 
+UNION all
+SELECT
+	COUNT(*) AS count_b,
+	color
+FROM 
+	smd.led
+GROUP BY 
+	color
+HAVING color = 'black')
+
+SELECT
+	SUM(count_b) AS count_black,
+	color
+FROM
+	table_black_pcb
+GROUP BY color;
+
+--вывести уникальные значения, в которых названия начинаются с B511:
+SELECT
+	COUNT(*)
+FROM
+	smd.led
+WHERE
+	name ILIKE 'B511%';
+
+
+
